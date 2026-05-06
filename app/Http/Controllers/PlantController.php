@@ -14,7 +14,12 @@ class PlantController extends Controller
    */
   public function index()
   {
+<<<<<<< dantayana
     return PlantModel::paginate(15);
+=======
+    $plants = PlantModel::paginate(15);
+    return response()->json($plants);
+>>>>>>> main
   }
 
   /**
