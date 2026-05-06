@@ -14,8 +14,7 @@ class PlantController extends Controller
    */
   public function index()
   {
-    //TODO : implement load all the records
-    //TODO : implement pagination when loading all the records
+    return PlantModel::paginate(15);
   }
 
   /**
@@ -39,7 +38,23 @@ class PlantController extends Controller
    */
   public function update(Request $request, PlantModel $plantController)
   {
-    //TODO : implement update record functionality
+    $validated = $request->validate([
+      'name' => 'sometimes|string|max:255',
+      'variety' => 'sometimes|string|max:255',
+      'notes' => 'sometimes|string|nullable',
+      'date_planted' => 'sometimes|date',
+      'seedling_count' => 'sometimes|integer|min:0',
+      'batch_name' => 'sometimes|string|max:255',
+      'starting_fund' => 'sometimes|numeric|min:0',
+      'seedling_source' => 'sometimes|string|nullable',
+    ]);
+
+    $plantController->update($validated);
+
+    return response()->json([
+      'message' => 'Plant record updated successfully',
+      'data' => $plantController,
+    ], 200);
   }
 
   /**
@@ -47,6 +62,10 @@ class PlantController extends Controller
    */
   public function destroy(PlantModel $plant)
   {
-    //TODO : implement delete record functionality
+    $plant->delete();
+
+    return response()->json([
+      'message' => 'Plant record deleted successfully',
+    ], 200);
   }
 }
